@@ -27,35 +27,50 @@ public class QueensPuzzle {
      */
     public static void main(String[] args) {
         int n;
-        if (GraphicsEnvironment.isHeadless()) {
-            if (args.length > 0) {
-                n = Integer.parseInt(args[0]);
-            } else {
+        if (args.length > 0) {
+            n = Integer.parseInt(args[0]);
+        } else {
+            if (GraphicsEnvironment.isHeadless()) {
+
                 System.out.println("Enter value for n:");
                 n = Integer.parseInt(new Scanner(System.in).nextLine());
+            } else {
+                n = Integer.parseInt(JOptionPane.showInputDialog("Enter value for n"));
             }
-        } else {
-            n = Integer.parseInt(JOptionPane.showInputDialog("Enter value for n"));
+        }
+        if (n < 1) {
+            System.out.println("Must be value greater than 1!");
+            if (!GraphicsEnvironment.isHeadless()) {
+                JOptionPane.showMessageDialog(null, "Must be value greater than 1!");
+            }
+            return;
         }
         b = new Board(n);
         long start = new Date().getTime();
-        System.out.println("Searching...");
-        b.start();
-        System.out.println("Found!");
+        System.out.println("Searching with size " + n + "...");
+        boolean result = b.start();
         long end = new Date().getTime();
-        b.printState();
-        long time = end - start;
-        double s = time / 1000D;
-        System.out.println("Complete in " + s + "s");
+        if (result) {
+            System.out.println("Found!");
+            b.printState();
+            long time = end - start;
+            double s = time / 1000D;
+            System.out.println("Complete in " + s + "s");
 
-        if (!GraphicsEnvironment.isHeadless()) {
-            JFrame frame = new JFrame("Queens Puzzle");
-            frame.setSize(1000, 1000);
-            JPanel panel = new MyPanel();
-            panel.setSize(1000, 1000);
-            frame.add(panel);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
+            if (!GraphicsEnvironment.isHeadless()) {
+                JFrame frame = new JFrame("Queens Puzzle");
+                frame.setSize(1000, 1000);
+                JPanel panel = new MyPanel();
+                panel.setSize(1000, 1000);
+                frame.add(panel);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        } else {
+            System.out.println("No solution found!");
+            if (!GraphicsEnvironment.isHeadless()) {
+                JOptionPane.showMessageDialog(null, "No solution found!");
+            }
         }
     }
 
