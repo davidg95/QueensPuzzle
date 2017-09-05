@@ -101,7 +101,7 @@ public class Board {
         for (int i = 0; i < board.length; i++) {
             System.out.print("|");
             for (int j = 0; j < board[i].length; j++) {
-                System.out.print((board[i][j] ? "Q" : "-"));
+                System.out.print((board[i][j] ? QueensPuzzle.QUEEN_CHAR : QueensPuzzle.BLANK_CHAR));
             }
             System.out.println("|");
         }

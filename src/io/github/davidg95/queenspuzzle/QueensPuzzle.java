@@ -21,6 +21,9 @@ import javax.swing.JPanel;
 public class QueensPuzzle {
 
     private static Board b;
+    
+    public static final String QUEEN_CHAR = "\u25A0";
+    public static final String BLANK_CHAR = "\u25A1";
 
     /**
      * @param args the command line arguments
@@ -39,9 +42,9 @@ public class QueensPuzzle {
             }
         }
         if (n < 1) {
-            System.out.println("Must be value greater than 1!");
+            System.out.println("Must be value greater than 0!");
             if (!GraphicsEnvironment.isHeadless()) {
-                JOptionPane.showMessageDialog(null, "Must be value greater than 1!");
+                JOptionPane.showMessageDialog(null, "Must be value greater than 0!");
             }
             return;
         }
