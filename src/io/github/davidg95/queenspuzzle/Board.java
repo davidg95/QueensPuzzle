@@ -5,9 +5,6 @@
  */
 package io.github.davidg95.queenspuzzle;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * Models the board. Also has methods for working out queen position.
  *
@@ -72,7 +69,7 @@ public class Board {
      * @return true if it is valid, false if it is not.
      */
     private boolean checkConflicts(int r, int c) {
-        for (int kr = 0; kr < r; kr++) { //Loop throw every row
+        for (int kr = 0; kr < (r - 1); kr++) { //Loop throw every row
             //Check the column.
             if (kr != r) {
                 if (board[kr][c]) {
