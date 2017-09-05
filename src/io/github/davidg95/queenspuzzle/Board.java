@@ -73,7 +73,7 @@ public class Board {
             //Check the column.
             if (kr != r) {
                 if (board[kr][c]) {
-                    return false; //There is a queen already in this column.
+                    return false; //Not valid.
                 }
             }
             int diff = Math.abs(kr - r);

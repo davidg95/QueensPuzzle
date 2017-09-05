@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 public class QueensPuzzle {
 
     private static Board b;
-    
+
     public static final String QUEEN_CHAR = "\u25A0";
     public static final String BLANK_CHAR = "\u25A1";
 
@@ -29,50 +29,57 @@ public class QueensPuzzle {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int n;
-        if (args.length > 0) {
-            n = Integer.parseInt(args[0]);
-        } else {
-            if (GraphicsEnvironment.isHeadless()) {
-
-                System.out.println("Enter value for n:");
-                n = Integer.parseInt(new Scanner(System.in).nextLine());
+        try {
+            int n;
+            if (args.length > 0) {
+                n = Integer.parseInt(args[0]);
             } else {
-                n = Integer.parseInt(JOptionPane.showInputDialog("Enter value for n"));
-            }
-        }
-        if (n < 1) {
-            System.out.println("Must be value greater than 0!");
-            if (!GraphicsEnvironment.isHeadless()) {
-                JOptionPane.showMessageDialog(null, "Must be value greater than 0!");
-            }
-            return;
-        }
-        b = new Board(n);
-        long start = new Date().getTime();
-        System.out.println("Searching with size " + n + "...");
-        boolean result = b.start();
-        long end = new Date().getTime();
-        if (result) {
-            System.out.println("Found!");
-            b.printState();
-            long time = end - start;
-            double s = time / 1000D;
-            System.out.println("Complete in " + s + "s");
+                if (GraphicsEnvironment.isHeadless()) {
 
-            if (!GraphicsEnvironment.isHeadless()) {
-                JFrame frame = new JFrame("Queens Puzzle");
-                frame.setSize(1000, 1000);
-                JPanel panel = new MyPanel();
-                panel.setSize(1000, 1000);
-                frame.add(panel);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setVisible(true);
+                    System.out.println("Enter value for n:");
+                    n = Integer.parseInt(new Scanner(System.in).nextLine());
+                } else {
+                    n = Integer.parseInt(JOptionPane.showInputDialog("Enter value for n"));
+                }
             }
-        } else {
-            System.out.println("No solution found!");
+            if (n < 1) {
+                System.out.println("Must be value greater than 0!");
+                if (!GraphicsEnvironment.isHeadless()) {
+                    JOptionPane.showMessageDialog(null, "Must be value greater than 0!");
+                }
+                return;
+            }
+            b = new Board(n);
+            long start = new Date().getTime();
+            System.out.println("Searching with size " + n + "...");
+            boolean result = b.start();
+            long end = new Date().getTime();
+            if (result) {
+                System.out.println("Found!");
+                b.printState();
+                long time = end - start;
+                double s = time / 1000D;
+                System.out.println("Complete in " + s + "s");
+
+                if (!GraphicsEnvironment.isHeadless()) {
+                    JFrame frame = new JFrame("Queens Puzzle");
+                    frame.setSize(1000, 1000);
+                    JPanel panel = new MyPanel();
+                    panel.setSize(1000, 1000);
+                    frame.add(panel);
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frame.setVisible(true);
+                }
+            } else {
+                System.out.println("No solution found!");
+                if (!GraphicsEnvironment.isHeadless()) {
+                    JOptionPane.showMessageDialog(null, "No solution found!");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
             if (!GraphicsEnvironment.isHeadless()) {
-                JOptionPane.showMessageDialog(null, "No solution found!");
+                JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
