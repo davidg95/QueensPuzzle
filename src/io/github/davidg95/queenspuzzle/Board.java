@@ -5,6 +5,9 @@
  */
 package io.github.davidg95.queenspuzzle;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Models the board. Also has methods for working out queen position.
  *
@@ -29,24 +32,28 @@ public class Board {
      * @return true if a solution was found, false if none as found.
      */
     public boolean start() {
-        return doRow(0);
+        return doRow(0, -10);
     }
 
     /**
      * Check where the queen can go on the given row.
      *
      * @param r the row to check.
+     * @param l the position of the queen in the row above.
      * @return true if a valid place was found, false if it was not.
      */
-    public boolean doRow(int r) {
+    public boolean doRow(int r, int l) {
         for (int c = 0; c < board[r].length; c++) { //Loop through every column.
+            if (c == l || (c + 1) == l || (c - 1) == l) { //If the current column matches the position of the queen in the row above, skip.
+                continue;
+            }
             board[r][c] = true; //Set the current position to true.
             boolean valid = checkConflicts(r, c); //Check if there are any conflicts in the current position.
             if (valid) { //If there are no conflicts.
                 if (r == (board.length - 1)) { //If we are on the last row.
                     return true; //If this line is reached, a solution has been found.
                 }
-                if (doRow(r + 1)) { //Check the next row.
+                if (doRow(r + 1, c)) { //Check the next row.
                     return true;
                 }
                 board[r][c] = false; //When this line is reached, no children rows have valid position, so a new position must be tried.
@@ -65,29 +72,24 @@ public class Board {
      * @return true if it is valid, false if it is not.
      */
     private boolean checkConflicts(int r, int c) {
-        //Check column.
-        for (int kr = 0; kr < board.length; kr++) { //Loop throw every row and check if the current column has a queen.
+        for (int kr = 0; kr < r; kr++) { //Loop throw every row
+            //Check the column.
             if (kr != r) {
                 if (board[kr][c]) {
                     return false; //There is a queen already in this column.
                 }
             }
-        }
-        //Check diagonals
-        for (int kr = 0; kr < board.length; kr++) { //Loop throuw every row.
             int diff = Math.abs(kr - r);
-            if (diff > 0) {
-                //Check diagonally up.
-                if (c - diff >= 0) {
-                    if (board[kr][c - diff]) {
-                        return false; //Not valid.
-                    }
+            //Check diagonally left.
+            if (c - diff >= 0) {
+                if (board[kr][c - diff]) {
+                    return false; //Not valid.
                 }
-                //Check diagonally down.
-                if (c + diff < board.length) {
-                    if (board[kr][c + diff]) {
-                        return false; //Not valid.
-                    }
+            }
+            //Check diagonally right.
+            if (c + diff < board.length) {
+                if (board[kr][c + diff]) {
+                    return false; //Not valid.
                 }
             }
         }
@@ -123,5 +125,14 @@ public class Board {
      */
     public int getSize() {
         return board.length;
+
+    }
+
+    private class Flags {
+
+        private boolean rowFlag = true;
+        private boolean diagFlag = true;
+
+        private boolean complete = false;
     }
 }
