@@ -13,6 +13,7 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -63,12 +64,17 @@ public class QueensPuzzle {
 
                 if (!GraphicsEnvironment.isHeadless()) {
                     JFrame frame = new JFrame("Queens Puzzle");
-                    frame.setSize(1000, 1000);
+                    frame.setSize(900, 900);
                     JPanel panel = new MyPanel();
-                    panel.setSize(1000, 1000);
+                    panel.setSize(800, 800);
                     frame.add(panel);
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setVisible(true);
+                    SwingUtilities.invokeLater(() -> {
+                        frame.setVisible(true);
+                    });
+                    SwingUtilities.invokeLater(() -> {
+                        JOptionPane.showMessageDialog(frame, "Found in " + s + "s");
+                    });
                 }
             } else {
                 System.out.println("No solution found!");
@@ -90,7 +96,7 @@ public class QueensPuzzle {
         public void paintComponent(Graphics g) {
             g.setColor(Color.BLACK);
             int n = b.getSize();
-            int size = 1000 / n;
+            int size = 800 / n;
             int currentx = 0;
             int currenty = 0;
             for (int i = 0; i < n; i++) {
@@ -106,7 +112,6 @@ public class QueensPuzzle {
                 currenty += size;
                 currentx = 0;
             }
-            repaint();
         }
     }
 
