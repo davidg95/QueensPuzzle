@@ -51,8 +51,8 @@ public class QueensPuzzle {
                 return;
             }
             b = new Board(n);
-            long start = new Date().getTime();
             System.out.println("Searching with size " + n + "...");
+            long start = new Date().getTime();
             boolean result = b.start();
             long end = new Date().getTime();
             if (result) {
