@@ -122,14 +122,5 @@ public class Board {
      */
     public int getSize() {
         return board.length;
-
-    }
-
-    private class Flags {
-
-        private boolean rowFlag = true;
-        private boolean diagFlag = true;
-
-        private boolean complete = false;
     }
 }
