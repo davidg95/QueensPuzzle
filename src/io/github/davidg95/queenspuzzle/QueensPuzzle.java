@@ -14,8 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
+ * Main class for the Queen's Puzzle.
  *
  * @author David
  */
@@ -31,19 +33,23 @@ public class QueensPuzzle {
      */
     public static void main(String[] args) {
         try {
+            javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        }
+        try {
             int n;
-            if (args.length > 0) {
+            if (args.length > 0) { //Check if n was passed in parameters.
                 n = Integer.parseInt(args[0]);
             } else {
-                if (GraphicsEnvironment.isHeadless()) {
-
+                //Get the value for n from the user.
+                if (GraphicsEnvironment.isHeadless()) { //Check if there is a graphics environment.
                     System.out.println("Enter value for n:");
                     n = Integer.parseInt(new Scanner(System.in).nextLine());
                 } else {
                     n = Integer.parseInt(JOptionPane.showInputDialog("Enter value for n"));
                 }
             }
-            if (n < 1) {
+            if (n < 1) { //Check a valid number was entered.
                 System.out.println("Must be value greater than 0!");
                 if (!GraphicsEnvironment.isHeadless()) {
                     JOptionPane.showMessageDialog(null, "Must be value greater than 0!");
@@ -53,15 +59,17 @@ public class QueensPuzzle {
             b = new Board(n);
             System.out.println("Searching with size " + n + "...");
             long start = new Date().getTime();
-            boolean result = b.start();
+            boolean result = b.start(); //Start the search.
             long end = new Date().getTime();
             if (result) {
+                //If the result was found.
                 System.out.println("Found!");
                 b.printState();
                 long time = end - start;
                 double s = time / 1000D;
                 System.out.println("Complete in " + s + "s");
 
+                //Display the solution.
                 if (!GraphicsEnvironment.isHeadless()) {
                     JFrame frame = new JFrame("Queens Puzzle");
                     frame.setSize(900, 900);
@@ -77,6 +85,7 @@ public class QueensPuzzle {
                     });
                 }
             } else {
+                //If the result was not found.
                 System.out.println("No solution found!");
                 if (!GraphicsEnvironment.isHeadless()) {
                     JOptionPane.showMessageDialog(null, "No solution found!");
@@ -90,6 +99,9 @@ public class QueensPuzzle {
         }
     }
 
+    /**
+     * Panel for displaying the result.
+     */
     public static class MyPanel extends JPanel {
 
         @Override
