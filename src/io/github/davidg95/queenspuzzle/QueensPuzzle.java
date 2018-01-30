@@ -8,8 +8,11 @@ package io.github.davidg95.queenspuzzle;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -64,7 +67,30 @@ public class QueensPuzzle {
             b = new Board(n);
             System.out.println("Searching with size " + n + "...");
             long start = new Date().getTime();
-            boolean result = b.start(); //Start the search.
+            final Runnable run = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String anim = "|/-\\";
+                        int i = 0;
+                        while (true) {
+                            String data = "\r" + anim.charAt(i);
+                            System.out.write(data.getBytes());
+                            Thread.sleep(100);
+                            i++;
+                            if (i == 4) {
+                                i = 0;
+                            }
+                        }
+                    } catch (IOException | InterruptedException ex) {
+                        Logger.getLogger(QueensPuzzle.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+            Thread thread = new Thread(run);
+            thread.start();
+            boolean result = b.start(); //Start the search
+            thread.stop();
             long end = new Date().getTime();
             if (result) {
                 //If the result was found.
