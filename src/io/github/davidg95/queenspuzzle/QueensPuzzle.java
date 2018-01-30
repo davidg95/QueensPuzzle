@@ -67,24 +67,21 @@ public class QueensPuzzle {
             b = new Board(n);
             System.out.println("Searching with size " + n + "...");
             long start = new Date().getTime();
-            final Runnable run = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String anim = "|/-\\";
-                        int i = 0;
-                        while (true) {
-                            String data = "\r" + anim.charAt(i);
-                            System.out.write(data.getBytes());
-                            Thread.sleep(100);
-                            i++;
-                            if (i == 4) {
-                                i = 0;
-                            }
+            final Runnable run = () -> {
+                try {
+                    String anim = "|/-\\";
+                    int i = 0;
+                    while (true) {
+                        String data = "\r" + anim.charAt(i);
+                        System.out.write(data.getBytes());
+                        Thread.sleep(100);
+                        i++;
+                        if (i == anim.length()) {
+                            i = 0;
                         }
-                    } catch (IOException | InterruptedException ex) {
-                        Logger.getLogger(QueensPuzzle.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                } catch (IOException | InterruptedException ex) {
+                    Logger.getLogger(QueensPuzzle.class.getName()).log(Level.SEVERE, null, ex);
                 }
             };
             Thread thread = new Thread(run);
