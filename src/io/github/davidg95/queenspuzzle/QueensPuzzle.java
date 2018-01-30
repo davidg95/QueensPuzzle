@@ -32,6 +32,9 @@ public class QueensPuzzle {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        System.out.println("Queens Puzzle v1.0");
+        System.out.println("Created by David Grant");
+        System.out.println("GitHub repositry can be viewed at https://github.com/davidg95/QueensPuzzle.git");
         try {
             javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
